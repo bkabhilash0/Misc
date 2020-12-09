@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% load static %}
+{% load crispy_forms_tags %}
+{% block alert %}
+{% endblock alert %}
+{% block carousel %}
+{% endblock carousel %}
+{% block Heading %}
+{{post.title|safe}}
+{% endblock Heading %}
+
+
+{% block body %}
+<div class="container" id="article">
+    <small class="text-dark">Current User:{{user.id}}</small><br>
+    <small class="text-dark">Article By: {{post.author.first_name}} {{post.author.last_name}}</small><br>
+    <small class="text-muted">Last updated {{post.last_updated}}</small><br><br>
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+            <a href="{% url 'home:update' post.pk %}" class="btn btn-primary mb-3">Update</a>
+            <a href="{% url 'home:delete' post.pk %}" class="btn btn-danger mb-3">Delete</a>
+        {% endif %}<br>  
+        {% if liked %}  
+            <form action="{% url 'home:like_post' post.name post.pk %}" method="post" style="white-space:nowrap" >
+                {% csrf_token %}
+                <button type="submit" value='{{post.id}}' name='post_id' class='btn btn-danger px-4 mb-3' >Unlike</button>-- {{total_likes}}
+            </form> 
+        {% else %}
+            <form action="{% url 'home:like_post' post.name post.pk %}" method="post" style="white-space:nowrap" >
+                {% csrf_token %}
+                <button type="submit" value='{{post.id}}' name='post_id' class='btn btn-primary px-4 mb-3' >Like</button>-- {{total_likes}}
+            </form> 
+        {% endif %}
+        <a href="#comments" class="btn btn-primary mb-3">Comments</a>
+        {% else %}
+            <button type="submit" class='btn btn-secondary px-4 mb-3' disabled>Like</button>
+        <a href="#comments" class="btn btn-primary mb-3">Comments</a><br>
+        <a href="{% url 'login' %}?next={{request.path}}" class="mb-5">Login</a> to like or comment.
+        <br><br><hr>
+    {% endif %}
+    {{post.desc|safe}}
+</div><br><br><hr>
+
+{% with comments.count as total_comments %}
+<h2 class='ml-5 mt-5'>
+    {{total_comments}} comment{{total_comments|pluralize}}
+</h2>
+{% endwith %}
+{% for comment in comments %}
+<div class="comment ml-5 mb-5 mr-5" style="border-bottom:1px solid black;">
+    <p class="info">
+        Comment {{ forloop.counter }} by {{ comment.name }}
+        {{ comment.updated }} <br>
+        {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+            <a href="{% url 'home:update_comment' comment.pk %}" style="margin-right: 0.5rem;">Edit</a>|
+            <a href="{% url 'home:delete_comment' comment.pk %}">Delete</a>
+        {% endif %}
+        {% endif %}
+    </p><span id="cbody">
+        {{ comment.body|linebreaks }}
+    </span>
+
+</div>
+{% empty %}
+<p style="margin-left:3rem">There are no comments yet.</p>
+{% endfor %}
+
+<div class="container" id="comments" style='margin-left:2%;'>
+    {% if new_comment %}
+    <h2>Add an another comment</h2>
+    <form method="post" onsubmit="return false" id="cmform">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-3 mb-0">
+                {{ comment_form.name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3 mb-0">
+                {{ comment_form.email|as_crispy_field }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group form-group-lg col-md-6">
+                {{comment_form.body|as_crispy_field}}
+            </div>
+        </div>
+
+        <button class="btn btn-primary mb-3 " value="Add comment" v onclick="conf_sub()">Add Comment</button>
+        <a href="#article" class="btn btn-secondary mb-3 ">Go Up</a>
+    </form>
+
+    {% else %}
+    {% if user.is_authenticated %}
+    <h2>Add a new comment</h2>
+    <form method="post" onsubmit="conf_sub()"  id="cmform" name='cform'>
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-3 mb-0">
+                {{ comment_form.name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3 mb-0">
+                {{ comment_form.email|as_crispy_field }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group form-group-lg col-md-6">
+                {{comment_form.body|as_crispy_field}}
+            </div>
+        </div>
+
+        <input type = 'submit' class="btn btn-primary mb-3" value="Add comment"></input>
+        {% else %}
+        <a href="{% url 'login' %}?next={{request.path}}" class="btn btn-primary mb-3 ">Log in to Comment !</a>
+        {% endif %}
+        <a href="#article" class="btn btn-secondary mb-3 ">Go Up</a>
+    </form>
+</div>
+{% endif %}
+
+{% endblock body %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block carousel %}
+{% endblock carousel %}
+
+{% block link %}
+    /
+{% endblock link %}
+
+{% block postactive %}
+    
+{% endblock postactive %}
+
+{% block homeactive %}
+    
+{% endblock homeactive %}
+
+{% block Heading %}
+Edit profile
+{% endblock Heading %}
+
+{% block body %}
+  
+<form method="POST" class="needs-validation col-lg-6 offset-lg-3 py-5" enctype="multipart/form-data"  >
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <div class="text-center">
+        <input type='submit' class="btn btn-primary mb-3 mx-auto" value="Update Profile"></input>
+    </div>
+
+</form>
+
+    {% endblock body %}

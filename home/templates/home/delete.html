@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block carousel %}
+{% endblock carousel %}
+
+{% block link %}
+/
+{% endblock link %}
+
+{% block postactive %}
+active
+{% endblock postactive %}
+
+{% block homeactive %}
+
+{% endblock homeactive %}
+
+{% block Heading %}
+Delete Post!<br>{{post.author.id}}
+{% endblock Heading %}
+
+{% block body %}
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+            {% if submitted %}
+
+            <div class=" container text-center alert alert-success" role="alert">
+                Your post has been successfully deleted
+            </div>
+
+            {% else %}
+
+            <form method="POST" class="needs-validation col-lg-6 offset-lg-3" enctype="multipart/form-data" id="sub"
+                onsubmit='return false'>
+                {% csrf_token %}
+                <h3 class='mb-3 py-3' style="line-height:3rem;">Are you sure want to Delete the post <mark>{{post.title}}</mark>
+                </h3>
+
+                <button class="btn btn-danger mb-3" onclick="deletec('Post')">Delete Post</button>
+            </form>
+            {% endif %}
+    {% else %}
+            <h1 class="text-center">You are not allowed here</h1>
+    {% endif %}
+    {% endif %}
+<script>
+
+</script>
+{% endblock body %}

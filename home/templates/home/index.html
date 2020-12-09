@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block link %}
+    #blog
+{% endblock link %}
+{% block Heading %}
+    Blogs
+{% endblock Heading %}
+{% block card %}
+{% for contact in contacts %}
+    <div class="col mb-4">
+        <div class="card h-100">
+            <img src="{{contact.image.url}}" height="200" class="card-img-top" alt="...">
+            <div class="card-body">
+                <!-- <a href="blog/{{contact.id}}" class="stretched-link"></a> -->
+                <h5 class="card-title text-center">{{contact.title}}</h5>
+                <p class="card-text" style="word-wrap:break-word;">{{contact.shortdescription|safe|truncatechars:50}}</p><br>
+
+                    <a href="blog/{{contact.name}}/{{contact.id}}" class="btn btn-primary mt-2 stretched-link" id='read-btn'>Read More</a>
+                    <p class="card-text mt-3 mb-0 pb-0"><small class="text-muted">Last updated {{contact.last_updated}}</small></p>
+           
+                   
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% endblock card %}
+
+
+
+{% block body %}
+{% if length != 0 %}
+<!-- <div class="mx-auto container" style="width: 400px;"> -->
+    {% include 'home\pagination.html' with page=contacts %}
+<!-- </div> -->
+{% else %}
+<div class="container text-center">
+    <h2>There are no Posts to show</h2>
+    <a class="btn btn-primary py-2" href="{% url 'article' %}">Post Your First Blog</a>
+</div>
+{% endif %}
+{% endblock body %}
+

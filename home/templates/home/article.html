@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block link %}
+    /
+{% endblock link %}
+
+{% block postactive %}
+    active
+{% endblock postactive %}
+
+{% block homeactive %}
+    
+{% endblock homeactive %}
+
+{% block Heading %}
+Write your Blog!
+{% endblock Heading %}
+
+{% block body %}
+{% if submitted %}
+
+    <div class=" container text-center alert alert-success" role="alert">
+        Your post has been successfully posted
+    </div>
+
+{% else %}
+      
+  
+
+
+<form method="POST" class="needs-validation col-lg-6 offset-lg-3" enctype="multipart/form-data">
+    
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="validationTooltip01">Full name</label>
+                <input type="text" class="form-control" id="validationTooltip01" name='f_name' value="" required>
+                <div class="valid-tooltip">
+                    Looks good!
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="validationTooltip02">Email Id</label>
+                <input type="email" class="form-control" id="validationTooltip02" name = 'email' value="" required>
+                <div class="valid-tooltip">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12 mb-3">
+            <label for="validationTooltip03">Title of the Article</label>
+                <input type="text" class="form-control" id="validationTooltip03" name='title' required>
+                <div class="invalid-tooltip">
+                    Please provide a valid Title.
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12 mb-3">
+            <label for="validationTooltip03">Give a short Description in max 20 words</label>
+                <input type="text" class="form-control" id="validationTooltip03" name='sdesc' required>
+                <div class="invalid-tooltip">
+                    Please provide a valid Description.
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12 mb-3">
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Upload Article Cover (*Optional)</label>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1" name='img' value="/img/slider2.jpg">
+                  </div>
+            </div>
+            <!-- <input type="hidden" name="author" value="{{ request.user.id }}"> -->
+            <!-- <div class="col-md-3 mb-3">
+                <label for="validationTooltip04">State</label>
+                <select class="custom-select" id="validationTooltip04" required>
+                    <option selected disabled value="">Choose...</option>
+                    <option>Andra Pradesh</option>
+                    <option>Tamil Nadu</option>
+                    <option>Kerala</option>
+                </select>
+                <div class="invalid-tooltip">
+                    Please select a valid state.
+                </div>
+            </div> -->
+            <!-- <div class="col-md-6 mb-3">
+                <label for="validationTooltip05">Zip</label>
+                <input type="text" class="form-control" id="validationTooltip05" required>
+                <div class="invalid-tooltip">
+                    Please provide a valid zip.
+                </div>
+            </div> -->
+        </div>
+        <div class=" container text-center alert alert-warning" role="alert">
+            Article must be minimum of 50 words.
+        </div>
+        {{form.media}}
+        {{form.as_p}}
+       
+        <!-- <button class="btn btn-primary mb-3" value="Post Article" onclick='con()'>Post Article</button> -->
+        <input type='submit' class="btn btn-primary mb-3" value="Post Article"></input>
+</form>
+    {% endif %}
+
+    <!-- <div class="row justify-content-center">
+        {% csrf_token %}
+        {{form.media}}
+        {{form.as_p}}
+        <button class="btn btn-primary mt-3" type="submit">Submit form</button>
+    </div>
+
+</form> -->
+    {% endblock body %}

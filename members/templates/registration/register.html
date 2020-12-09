@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block carousel %}
+{% endblock carousel %}
+
+{% block link %}
+    /
+{% endblock link %}
+
+{% block postactive %}
+    
+{% endblock postactive %}
+
+{% block homeactive %}
+    
+{% endblock homeactive %}
+
+{% block Heading %}
+Register
+{% endblock Heading %}
+
+{% block body %}
+      
+<form method="POST" class="needs-validation col-lg-6 offset-lg-3" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+            {{form.first_name|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            {{form.last_name|as_crispy_field }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group form-group-lg col-md-6">
+            {{form.username|as_crispy_field}}
+        </div>
+        <div class="form-group form-group-lg col-md-6">
+            {{form.email|as_crispy_field}}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group form-group-lg col-md-6">
+            {{form.password1|as_crispy_field}}
+        </div>
+        <div class="form-group form-group-lg col-md-6">
+            {{form.password2|as_crispy_field}}
+        </div>
+    </div>
+
+        <input type='submit' class="btn btn-primary mb-3 mx-auto" value="Register"></input>
+</form>
+    {% endblock body %}

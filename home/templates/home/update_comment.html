@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block carousel %}
+{% endblock carousel %}
+
+{% block link %}
+    /
+{% endblock link %}
+
+{% block postactive %}
+    active
+{% endblock postactive %}
+
+{% block homeactive %}
+    
+{% endblock homeactive %}
+
+{% block Heading %}
+Edit you comment!
+{% endblock Heading %}
+
+{% block body %}
+{% if user.is_authenticated %}
+    {% if user.id == comment.post.author.id %}
+        {% if submitted %}
+
+            <div class=" container text-center alert alert-success" role="alert">
+                Your comment has been successfully updated
+            </div>
+
+         {% else %}
+        
+            <form method="POST" class="needs-validation col-lg-6 offset-lg-3" enctype="multipart/form-data">
+                {% csrf_token %}
+                    {{form.media}}
+                    {{form|crispy}}
+                    <input type='submit' class="btn btn-primary mb-3" value="Update Comment"></input>
+            </form>
+        {% endif %}
+        {% else %}
+            <h1 class='text-center'>You are not allowed here</h1>
+    {% endif %}
+    {% endif %}
+
+    {% endblock body %}
